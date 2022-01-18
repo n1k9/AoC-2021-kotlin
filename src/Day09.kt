@@ -44,7 +44,7 @@ fun part1(input: Heightmap): Int {
 }
 
 fun part2(input: Heightmap): Int {
-    var basins: MutableList<Int> = mutableListOf()
+    val basins: MutableList<Int> = mutableListOf()
     for (r in 0 until input.rowSize()) {
         for (c in 0 until input.colSize()) {
             if (input.lowerCrossNeighbors(r, c)) {

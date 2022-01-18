@@ -15,6 +15,10 @@ fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest
 
 fun String.sortedString(): String = this.toCharArray().sorted().joinToString("")
 
+data class Point(
+    val x: Int,
+    val y: Int
+)
 
 data class CoordMap(val map: List<String>)
 

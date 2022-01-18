@@ -2,10 +2,6 @@ import java.lang.Integer.min
 import java.lang.Integer.max
 import java.lang.Math.abs
 
-data class Point(
-    val x: Int,
-    val y: Int
-)
 
 fun main() {
     fun displayBoard(board: Array<IntArray>) {

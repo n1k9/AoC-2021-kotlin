@@ -11,6 +11,25 @@ fun Heightmap.lowerCrossNeighbors(r: Int, c: Int): Boolean {
     return p < n && p < w && p < s && p < e
 }
 
+fun Heightmap.basinsExtension(r: Int, c: Int, basin: MutableList<Point> = mutableListOf()): Int {
+    if (0 <= r && r < this.heightmap.size && 0 <= c && c < this.heightmap[r].length) {
+        val v = this.get(r, c)
+        val point = Point(r, c)
+        if (v < 9 && point !in basin) {
+            basin.add(point)
+            if (Point(r - 1, c) !in basin)
+                this.basinsExtension(r - 1, c, basin)
+            if (Point(r + 1, c) !in basin)
+                this.basinsExtension(r + 1, c, basin)
+            if (Point(r, c - 1) !in basin)
+                this.basinsExtension(r, c - 1, basin)
+            if (Point(r, c + 1) !in basin)
+                this.basinsExtension(r, c + 1, basin)
+        }
+    }
+    return basin.size
+}
+
 fun Heightmap.rowSize(): Int = this.heightmap.size
 fun Heightmap.colSize(row: Int = 0): Int = this.heightmap[row].length
 
@@ -25,7 +44,17 @@ fun part1(input: Heightmap): Int {
 }
 
 fun part2(input: Heightmap): Int {
-    return 0
+    var basins: MutableList<Int> = mutableListOf()
+    for (r in 0 until input.rowSize()) {
+        for (c in 0 until input.colSize()) {
+            if (input.lowerCrossNeighbors(r, c)) {
+                basins.add(input.basinsExtension(r, c))
+            }
+        }
+    }
+    basins.sort()
+    basins.reverse()
+    return basins[0] * basins[1] * basins[2]
 }
 
 fun main() {
@@ -40,9 +69,9 @@ fun main() {
     )
 
     check(part1(testInput) == 15)
-//    check(part2(testInput) == 0)
+    check(part2(testInput) == 1134)
 
     val input = Heightmap(readInput("Day09_data"))
     println("Part1: ${part1(input)}")
-//    println(part2(input))
+    println("Part2: ${part2(input)}")
 }

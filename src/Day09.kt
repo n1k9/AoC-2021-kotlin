@@ -1,18 +1,16 @@
-data class Heightmap(val heightmap: List<String>)
-
-fun Heightmap.get(r: Int, c: Int): Byte = this.heightmap[r][c].toString().toByte()
+typealias Heightmap = CoordMap
 
 fun Heightmap.lowerCrossNeighbors(r: Int, c: Int): Boolean {
     val p = this.get(r, c)
     val n = if (r - 1 >= 0) this.get(r - 1, c) else 9
-    val s = if (r + 1 < this.heightmap.size) this.get(r + 1, c) else 9
+    val s = if (r + 1 < this.rowSize() ) this.get(r + 1, c) else 9
     val w = if (c - 1 >= 0) this.get(r, c - 1) else 9
-    val e = if (c + 1 < this.heightmap[r].length) this.get(r, c + 1) else 9
+    val e = if (c + 1 < this.colSize() ) this.get(r, c + 1) else 9
     return p < n && p < w && p < s && p < e
 }
 
 fun Heightmap.basinsExtension(r: Int, c: Int, basin: MutableList<Point> = mutableListOf()): Int {
-    if (0 <= r && r < this.heightmap.size && 0 <= c && c < this.heightmap[r].length) {
+    if (0 <= r && r < this.map.size && 0 <= c && c < this.map[r].length) {
         val v = this.get(r, c)
         val point = Point(r, c)
         if (v < 9 && point !in basin) {
@@ -30,8 +28,7 @@ fun Heightmap.basinsExtension(r: Int, c: Int, basin: MutableList<Point> = mutabl
     return basin.size
 }
 
-fun Heightmap.rowSize(): Int = this.heightmap.size
-fun Heightmap.colSize(row: Int = 0): Int = this.heightmap[row].length
+
 
 fun part1(input: Heightmap): Int {
     var riskLevel = 0

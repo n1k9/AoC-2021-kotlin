@@ -14,3 +14,10 @@ fun String.md5(): String = BigInteger(1, MessageDigest.getInstance("MD5").digest
 
 
 fun String.sortedString(): String = this.toCharArray().sorted().joinToString("")
+
+
+data class CoordMap(val map: List<String>)
+
+fun CoordMap.get(r: Int, c: Int): Byte = this.map[r][c].toString().toByte()
+fun CoordMap.rowSize(): Int = this.map.size
+fun CoordMap.colSize(row: Int = 0): Int = this.map[row].length
